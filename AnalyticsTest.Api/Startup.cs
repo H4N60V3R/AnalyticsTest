@@ -27,8 +27,19 @@ namespace AnalyticsTest.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AnalyticsTestContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AnalyticsTestConnection")));
+            services.AddDbContext<StartDone_AnalyticsContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("StartDone_AnalyticsContext")));
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
 
             services.AddControllers();
         }
@@ -44,6 +55,8 @@ namespace AnalyticsTest.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
